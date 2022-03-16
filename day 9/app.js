@@ -7,15 +7,16 @@ const fs = require("fs");
 const PORT = process.env.PORT || 8080;
 
 app.get("/image", (req, res) => {
-  res.json({
-    files: ["art.jpg", "japan.png", "tree.png"],
-  });
+  const imagePath = path.join(__dirname, `public/images/`);
+  const files = fs.readdirSync(imagePath);
+
+  res.json({ files });
 });
 
-app.get("/image/:name", async (req, res) => {
+app.get("/image/:name", (req, res) => {
   const name = req.params.name;
   const imagePath = path.join(__dirname, `public/images/${name}`);
-  const doesImageExist = await fs.existsSync(imagePath);
+  const doesImageExist = fs.existsSync(imagePath);
 
   if (!doesImageExist)
     return res.status(404).json({ title: "Error", message: "File not Found" });
@@ -24,15 +25,16 @@ app.get("/image/:name", async (req, res) => {
 });
 
 app.get("/docs", (req, res) => {
-  res.json({
-    files: ["resume-template.pdf", "stock.csv"],
-  });
+  const docPath = path.join(__dirname, `public/docs/`);
+  const files = fs.readdirSync(docPath);
+
+  res.json({ files });
 });
 
-app.get("/docs/:name", async (req, res) => {
+app.get("/docs/:name", (req, res) => {
   const name = req.params.name;
   const docPath = path.join(__dirname, `public/docs/${name}`);
-  const doesDocExist = await fs.existsSync(docPath);
+  const doesDocExist = fs.existsSync(docPath);
 
   if (!doesDocExist)
     return res.status(404).json({ title: "Error", message: "File not Found" });
