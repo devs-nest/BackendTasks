@@ -1,39 +1,43 @@
-const fs = require("fs");
+const fs = require("fs").promises;
 
 const [, , operation, fileName, message] = process.argv;
 
-const createFile = (name, msg = "") => {
-  const isExisting = fs.existsSync(name);
-
-  if (isExisting) return console.log("File Already Exists!");
-
-  fs.writeFile(name, msg, (err) => {
-    if (err) return console.log(err);
+const createFile = async (name, msg = "") => {
+  try {
+    await fs.writeFile(name, msg);
     console.log("File Created!");
-  });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-const readFile = (name) => {
-  fs.readFile(name, "utf-8", (err, data) => {
-    if (err) return console.log(err);
+const readFile = async (name) => {
+  try {
+    const data = await fs.readFile(name, "utf-8");
     console.log(data);
-  });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-const updateFile = (name, msg) => {
+const updateFile = async (name, msg) => {
   if (!msg) return console.log("Please provide a message!");
 
-  fs.appendFile(name, msg, (err) => {
-    if (err) return console.log(err);
+  try {
+    await fs.appendFile(name, msg);
     console.log("File Updated!");
-  });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-const deleteFile = (name) => {
-  fs.unlink(name, (err) => {
-    if (err && err.code === "ENOENT") return console.log("File not Found!");
+const deleteFile = async (name) => {
+  try {
+    await fs.unlink(name);
     console.log("File Deleted!");
-  });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 switch (operation) {
