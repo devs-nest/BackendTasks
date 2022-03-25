@@ -1,0 +1,18 @@
+<% if(typeof errors != 'undefined') { %> <% errors.forEach((error) => { %>
+<div class="message e-message"><%= error.msg %></div>
+<% }); %> <% } %> 
+
+
+<% if(success_msg) { %> 
+    <div class="message s-message"><%= success_msg %></div>
+<% } %>
+
+<% if(error_msg) { %> 
+    <div class="message e-message"><%= error_msg %></div>
+<% } %>
+
+<% if(error) { %> 
+    <div class="message e-message"><%= error %></div>
+<% } %>
+
+
