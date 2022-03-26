@@ -7,6 +7,7 @@ router.get("/", (req, res) => {
   res.render("welcome");
 });
 
+// Private Route for Authenticated Users
 router.get("/dashboard", ensureAuthenticated, (req, res) => {
   console.log(req.user);
   res.render("dashboard", {

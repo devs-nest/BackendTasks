@@ -1,9 +1,9 @@
 const LocalStrategy = require("passport-local").Strategy;
-const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const User = require("../models/User");
 
+// Initializing Local Strategy
 module.exports = (passport) => {
   passport.use(
     new LocalStrategy(
@@ -33,10 +33,12 @@ module.exports = (passport) => {
     )
   );
 
+  // Serialize User - Setting Id as cookie
   passport.serializeUser((user, done) => {
     done(null, user.id);
   });
 
+  // Deserialize User - Retrieving data using id from cookie
   passport.deserializeUser((id, done) => {
     User.findOne({ id }, (err, user) => {
       return done(err, user);

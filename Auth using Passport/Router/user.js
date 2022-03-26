@@ -9,6 +9,7 @@ router.get("/login", (req, res) => {
   res.render("login.ejs");
 });
 
+// login for post request
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", {
     successRedirect: "/dashboard",
@@ -25,6 +26,7 @@ router.post("/register", async (req, res) => {
   const { username, password, confirmPassword } = req.body;
   const errors = [];
 
+  // Registration checks
   if (!username || !password || !confirmPassword)
     errors.push({ msg: "Please fill all the fields" });
 
@@ -39,14 +41,17 @@ router.post("/register", async (req, res) => {
       errors,
     });
   }
+
   try {
     const isExistingUser = await User.findOne({ username });
 
+    // If user is already register, render register page
     if (isExistingUser) {
       errors.push({ msg: "Username already registered" });
       return res.render("register", { errors });
     }
 
+    // hash password and save user to database
     const hash = await bcrypt.hash(password, 8);
 
     const user = new User({
