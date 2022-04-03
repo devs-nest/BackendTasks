@@ -3,7 +3,7 @@ const app = express();
 
 // Run MongoDB and Postgres server locally beforing using these routes
 
-// Initializing MongoDB 
+// Initializing MongoDB
 require("./database/mongoose");
 
 const PORT = process.env.PORT || 8080;
@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 8080;
 const postgresUserRoutes = require("./routes/postgresUser");
 const mongoUserRoutes = require("./routes/mongoUser");
 
-// Parsing 
+// Parsing
 app.use(express.json());
 
 // Routes
