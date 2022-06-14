@@ -1,0 +1,29 @@
+const express = require("express");
+const router = express.Router();
+
+// middlewares
+const userExists = require("../middlewares/userExists");
+const verifyUserCheck = require("../middlewares/verifyUserCheck");
+const initialUserCheck = require("../middlewares/initialUserCheck");
+const initialLoginCheck = require("../middlewares/initialLoginCheck");
+
+// controller
+const {
+  getAllUsers,
+  createNewUser,
+  verifyUser,
+  loginUser,
+  generateNewOtp,
+  initialResetPassword,
+  resetPassword,
+} = require("../controllers/user.controller");
+
+router.get("/", getAllUsers);
+router.post("/signup", initialUserCheck, userExists, createNewUser);
+router.post("/verify", verifyUserCheck, verifyUser);
+router.post("/login", initialLoginCheck, loginUser);
+router.post("/generateotp/:id", generateNewOtp);
+router.post("/resetpassword", initialResetPassword);
+router.post("/resetpassword/:id/:token", resetPassword);
+
+module.exports = router;
